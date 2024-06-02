@@ -1,0 +1,33 @@
+package com.nhom2_kot104.ungdungdatcomtam.screen
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.graphics.toColorInt
+import com.nhom2_kot104.ungdungdatcomtam.R
+
+@Composable
+fun WelcomeScreen(){
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .background(color = Color("#282222".toColorInt())),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+
+    ) {
+        Image(painter = painterResource(id = R.drawable.logo), contentDescription ="", modifier = Modifier.fillMaxSize() )
+    }
+}
+@Preview(showSystemUi = true, showBackground = true, device = "id:pixel_6_pro")
+@Composable
+fun PreviewWelcome(){
+    WelcomeScreen()
+}
