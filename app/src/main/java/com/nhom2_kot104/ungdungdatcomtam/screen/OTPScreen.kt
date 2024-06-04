@@ -77,7 +77,7 @@ fun OTPScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceEvenly,
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -97,12 +97,15 @@ fun OTPScreen() {
 
                     }
                 }
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "00:30", modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
                     color = Color.White,
                 )
+                Spacer(modifier = Modifier.height(20.dp))
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
