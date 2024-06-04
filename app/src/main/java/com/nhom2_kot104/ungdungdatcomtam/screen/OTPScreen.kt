@@ -2,7 +2,9 @@ package com.nhom2_kot104.ungdungdatcomtam.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,28 +12,19 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,10 +33,7 @@ import androidx.core.graphics.toColorInt
 import com.nhom2_kot104.ungdungdatcomtam.R
 
 @Composable
-fun LoginScreen() {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+fun OTPScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,32 +58,67 @@ fun LoginScreen() {
                 color = Color.White,
             )
             Text(
-                text = "Vui lòng cập nhật thông tin chính xác để\n" +
-                        " thuận tiện cho việc giao hàng",
+                text = "Chúng tôi sẽ gửi bạn mã OTP qua số điện thoại này",
+                fontSize = 15.sp,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "0904866137",
                 fontSize = 15.sp,
                 color = Color.White,
                 textAlign = TextAlign.Center
             )
         }
         Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            InputField(label = "Số điện thoại", value = "") {
-                
-            }
-            InputField(label = "Phường", value = "") {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    InputOTP(value = "") {
 
-            }
-            InputField(label = "Đường", value = "") {
+                    }
+                    InputOTP(value = "") {
 
-            }
-            InputField(label = "Số nhà", value = "") {
+                    }
+                    InputOTP(value = "") {
 
+                    }
+                    InputOTP(value = "") {
+
+                    }
+                }
+                Text(
+                    text = "00:30", modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 15.sp,
+                    color = Color.White,
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Không nhân được mã OTP ? ", fontSize = 14.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight(700)
+                    )
+                    Text(
+                        text = "Gửi lại OTP", fontSize = 14.sp,
+                        color = Color("#FE724C".toColorInt()),
+                        fontWeight = FontWeight(700)
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -106,40 +131,36 @@ fun LoginScreen() {
             ) {
                 Text(text = "Xác nhận", color = Color.White, fontSize = 18.sp)
             }
-
-
         }
     }
 }
 
 @Composable
-fun InputField(
-    label: String,
+fun InputOTP(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-    Column(
+    Box(
+        modifier = Modifier
+            .border(3.dp, Color("#FE724C".toColorInt()), RoundedCornerShape(30.dp))
+            .size(60.dp)
+            .clip(RoundedCornerShape(30.dp))
     ) {
-        Text(text = label, fontSize = 16.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(5.dp))
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
             singleLine = true,
             modifier = Modifier
-                .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(10.dp))
-                .background(Color("#D9D9D9".toColorInt()))
-                .height(40.dp),
-        )
+                .clip(shape = RoundedCornerShape(30.dp))
+                .size(60.dp)
+                .background(Color.White),
+
+            )
     }
 }
 
-@Preview(
-    showSystemUi = true, showBackground = true,
-    device = "spec:parent=pixel_6_pro"
-)
+@Preview(device = "id:pixel_6_pro", showSystemUi = true, showBackground = true)
 @Composable
-fun PreviewLogin() {
-    LoginScreen()
+fun PreviewOTP() {
+    OTPScreen()
 }

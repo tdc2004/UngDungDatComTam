@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "202592429386",
+    "project_id": "nhom2xuongkotlin",
+    "storage_bucket": "nhom2xuongkotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202592429386:android:5a87f6122731eacfb38db3",
+        "android_client_info": {
+          "package_name": "com.nhom2_kot104.ungdungdatcomtam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3OQwelKNNhs7flsoTz6FKM1mPQOF1aec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
