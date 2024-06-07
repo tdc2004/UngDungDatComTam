@@ -41,7 +41,8 @@ fun LoginScree() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(text = "Đăng nhập", fontSize = 32.sp, color = Color.White, fontWeight = FontWeight(900))
-            Image(painter = painterResource(id = R.drawable.logo), contentDescription = "", modifier = Modifier.fillMaxSize(0.8f))
+            Image(painter = painterResource(id = R.drawable.logo), contentDescription = "",
+                modifier = Modifier.fillMaxSize(0.8f))
         }
         Column(
             modifier = Modifier

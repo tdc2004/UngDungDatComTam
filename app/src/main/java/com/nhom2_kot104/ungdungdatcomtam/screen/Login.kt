@@ -41,9 +41,10 @@ import com.nhom2_kot104.ungdungdatcomtam.R
 
 @Composable
 fun LoginScreen() {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var phuong by remember { mutableStateOf("") }
+    var duong by remember { mutableStateOf("") }
+    var sonha by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,17 +84,19 @@ fun LoginScreen() {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            InputField(label = "Số điện thoại", value = "") {
-                
+            InputField(label = "Số điện thoại", value = phoneNumber) {
+                    newValue ->
+                phoneNumber = newValue
             }
-            InputField(label = "Phường", value = "") {
+            InputField(label = "Phường", value = phuong) {
+                newValue -> phuong = newValue
 
             }
-            InputField(label = "Đường", value = "") {
-
+            InputField(label = "Đường", value = duong) {
+                    newValue -> duong = newValue
             }
-            InputField(label = "Số nhà", value = "") {
-
+            InputField(label = "Số nhà", value = sonha) {
+                    newValue -> sonha = newValue
             }
             Row(
                 modifier = Modifier
@@ -130,7 +133,8 @@ fun InputField(
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(10.dp))
                 .background(Color("#D9D9D9".toColorInt()))
-                .height(40.dp),
+                .height(50.dp)
+                ,
         )
     }
 }

@@ -56,7 +56,7 @@ fun HomeAdminScreen(navController: NavHostController) {
                     painter = painterResource(id = R.drawable.logo), // Thay đổi thành tài nguyên hình ảnh của bạn
                     contentDescription = "Profile Image",
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(60.dp)
                         .clip(CircleShape)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
