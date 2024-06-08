@@ -3,10 +3,12 @@ package com.nhom2_kot104.ungdungdatcomtam.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,9 +16,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,14 +38,47 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.nhom2_kot104.ungdungdatcomtam.BottomNavigationBar
 import com.nhom2_kot104.ungdungdatcomtam.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CatergoryScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
+        },
+        topBar = {
+//            TopAppBar(
+//                title = {
+//                    Row(
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        modifier = Modifier.height(80.dp)
+//                    ) {
+//                        Spacer(modifier = Modifier.width(8.dp))
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowBack,
+//                            contentDescription = "Back",
+//                            tint = Color.White,
+//                            modifier = Modifier.clickable { /* Xử lý khi nhấn nút quay lại */ }
+//                        )
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.logo),
+//                            contentDescription = "Logo",
+//                            tint = Color.Unspecified,
+//                            modifier = Modifier.size(60.dp)
+//                        )
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                        Text(
+//                            text = "Cum tứm đim",
+//                            color = Color.White
+//                        )
+//                    }
+//                },
+//                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color("#252121".toColorInt()))
+//            )
         }
     ) {
         Column(

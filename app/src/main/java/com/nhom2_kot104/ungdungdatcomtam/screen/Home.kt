@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.BottomNavItem
+import com.nhom2_kot104.ungdungdatcomtam.BottomNavigationBar
 import com.nhom2_kot104.ungdungdatcomtam.R
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
@@ -126,46 +127,7 @@ fun OrderItem(orderId: String, amount: String, status: String) {
     }
 }
 
-@Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    val items = listOf(
-        BottomNavItem.Home,
-        BottomNavItem.Favorites,
-        BottomNavItem.Notification,
-        BottomNavItem.Profile
-    )
 
-    NavigationBar(containerColor = Color("#312C2C".toColorInt())) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
-        items.forEach { screen ->
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = screen.icon),
-                        contentDescription = screen.title,
-                        modifier = Modifier.size(25.dp),
-                    )
-                },
-                selected = currentRoute == screen.route,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        launchSingleTop = true
-                        restoreState = true
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = colorResource(id = android.R.color.black),
-                    unselectedIconColor = Color.Gray,
-                )
-            )
-        }
-    }
-}
 
 @Composable
 fun BottomNavigationItem(iconId: Int, label: String) {

@@ -12,12 +12,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.R
 
 @Composable
-fun WelcomeScreen(){
+fun WelcomeScreen(navController: NavController){
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = Color("#282222".toColorInt())),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -29,5 +32,6 @@ fun WelcomeScreen(){
 @Preview(showSystemUi = true, showBackground = true, device = "id:pixel_6_pro")
 @Composable
 fun PreviewWelcome(){
-    WelcomeScreen()
+    val navController = rememberNavController()
+    WelcomeScreen(navController)
 }

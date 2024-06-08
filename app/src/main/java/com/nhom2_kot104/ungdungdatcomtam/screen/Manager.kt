@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.nhom2_kot104.ungdungdatcomtam.BottomNavigationBar
 import com.nhom2_kot104.ungdungdatcomtam.R
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

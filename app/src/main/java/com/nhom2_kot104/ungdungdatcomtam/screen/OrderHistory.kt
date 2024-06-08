@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.nhom2_kot104.ungdungdatcomtam.BottomNavigationBar
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
 data class Order(
@@ -42,7 +43,7 @@ data class Order(
 )
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun OrderHistoryScreen(orders: List<Order>,navController: NavHostController) {
+fun OrderHistoryScreen(orders: List<Order>?,navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
@@ -69,7 +70,7 @@ fun OrderHistoryScreen(orders: List<Order>,navController: NavHostController) {
                     .weight(1f)
                     .padding(16.dp)
             ) {
-                items(orders) { order ->
+                items(orders!!) { order ->
                     OrderItem(order)
                 }
             }
