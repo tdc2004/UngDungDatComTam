@@ -29,7 +29,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.BottomNavItem
 import com.nhom2_kot104.ungdungdatcomtam.R
-import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
 @Composable
 fun HomeAdminScreen(navController: NavHostController) {
@@ -37,8 +36,13 @@ fun HomeAdminScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavigationBar(navController = navController)
         }
-    )
-    {
+    ) {
+        HomeContent(paddingValues = it)
+    }
+}
+
+    @Composable
+    fun HomeContent(paddingValues: PaddingValues){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -94,7 +98,6 @@ fun HomeAdminScreen(navController: NavHostController) {
             }
         }
     }
-}
 
 @Composable
 fun OrderItem(orderId: String, amount: String, status: String) {

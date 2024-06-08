@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.nhom2_kot104.ungdungdatcomtam.screen.HomeContent
+import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScreen
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,10 +36,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             UngDungDatComTamTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    HomeContent(innerPadding)
                 }
             }
         }
