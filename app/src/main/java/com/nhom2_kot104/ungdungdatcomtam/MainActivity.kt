@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity() {
                     composable("login") { LoginScree(navController = navController) }
                     composable("profile") { WelcomeScreen(navController = navController) }
                     composable("managers") { ManagerScreen(navController = navController) }
-
                 }
             }
         }
