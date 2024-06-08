@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -24,15 +25,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.nhom2_kot104.ungdungdatcomtam.screen.CatergoryScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.HomeAdminScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScree
+import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerMain
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.Order
 import com.nhom2_kot104.ungdungdatcomtam.screen.OrderHistoryScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.ProfileScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.WelcomeScreen
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
@@ -43,14 +50,25 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val orders = listOf(
+                Order("Đơn hàng đã chấp nhận", "10/03/2023", "9:20", "3 món", "98k"),
+                Order("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
+                Order("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
+                Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
+                Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
+                Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k")
+            )
             Scaffold() {
                 NavHost(navController = navController, startDestination = "welcome"){
                     composable("welcome") { WelcomeScreen(navController = navController) }
                     composable("home") { HomeAdminScreen(navController = navController) }
-                    composable("history") { OrderHistoryScreen(orders = null,navController = navController) }
+                    composable("history") { OrderHistoryScreen(orders = orders,navController = navController) }
                     composable("login") { LoginScree(navController = navController) }
-                    composable("profile") { WelcomeScreen(navController = navController) }
+                    composable("profile") { ProfileScreen(navController = navController) }
                     composable("managers") { ManagerScreen(navController = navController) }
+                    composable("register") { LoginScreen(navController = navController) }
+                    composable("mn_category") { CatergoryScreen(navController = navController) }
+                    composable("mn_main") { ManagerMain(navController = navController) }
                 }
             }
         }
@@ -74,7 +92,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavItem.Profile
     )
 
-    NavigationBar(containerColor = Color.White) {
+    NavigationBar(containerColor = Color("#312C2C".toColorInt())) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -98,8 +116,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = colorResource(id = android.R.color.black),
+                    selectedIconColor = Color("#FFB703".toColorInt()),
                     unselectedIconColor = Color.Gray,
+                    indicatorColor = Color("#312C2C".toColorInt())
                 )
             )
         }

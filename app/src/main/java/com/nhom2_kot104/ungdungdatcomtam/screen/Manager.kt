@@ -3,6 +3,7 @@ package com.nhom2_kot104.ungdungdatcomtam.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -35,11 +37,14 @@ import com.nhom2_kot104.ungdungdatcomtam.R
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ManagerScreen(navController: NavHostController){
+fun ManagerScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
-        }
+        },
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding()
     ) {
         Column(
             modifier = Modifier
@@ -76,11 +81,14 @@ fun ManagerScreen(navController: NavHostController){
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("mn_category")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -103,7 +111,10 @@ fun ManagerScreen(navController: NavHostController){
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("mn_main")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -127,9 +138,10 @@ fun ManagerScreen(navController: NavHostController){
         }
     }
 }
+
 @Preview(showSystemUi = true, showBackground = true, device = "id:pixel_6_pro")
 @Composable
-fun PreviewManager(){
+fun PreviewManager() {
     val navController = rememberNavController()
     ManagerScreen(navController = navController)
 }

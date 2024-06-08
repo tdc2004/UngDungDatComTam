@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -49,6 +50,9 @@ fun CatergoryScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavigationBar(navController = navController)
         },
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding(),
         topBar = {
 //            TopAppBar(
 //                title = {
@@ -94,6 +98,17 @@ fun CatergoryScreen(navController: NavHostController) {
                     .height(80.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.back),
+                    contentDescription = "Back",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(end = 8.dp)
+                        .clickable {
+                            navController.navigateUp()
+                        },
+                    tint = Color.White
+                )
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Profile Image",
@@ -109,8 +124,8 @@ fun CatergoryScreen(navController: NavHostController) {
                     fontSize = 20.sp
                 )
                 Spacer(modifier = Modifier.weight(1f))
-
             }
+
             Divider(modifier = Modifier.height(3.dp), color = Color.Black)
             Column(
                 modifier = Modifier.padding(16.dp),

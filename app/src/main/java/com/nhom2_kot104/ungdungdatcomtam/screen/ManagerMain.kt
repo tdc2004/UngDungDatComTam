@@ -3,6 +3,7 @@ package com.nhom2_kot104.ungdungdatcomtam.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,10 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.nhom2_kot104.ungdungdatcomtam.BottomNavigationBar
 import com.nhom2_kot104.ungdungdatcomtam.R
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -38,7 +42,10 @@ fun ManagerMain(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
-        }
+        },
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding()
     ) {
         Column(
             modifier = Modifier
@@ -53,6 +60,17 @@ fun ManagerMain(navController: NavHostController) {
                     .height(80.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.back),
+                    contentDescription = "Back",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(end = 8.dp)
+                        .clickable {
+                            navController.navigateUp()
+                        },
+                    tint = Color.White
+                )
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Profile Image",
@@ -68,8 +86,8 @@ fun ManagerMain(navController: NavHostController) {
                     fontSize = 20.sp
                 )
                 Spacer(modifier = Modifier.weight(1f))
-
             }
+
             Divider(modifier = Modifier.height(3.dp), color = Color.Black)
             Column(
                 modifier = Modifier.padding(16.dp),

@@ -1,5 +1,7 @@
 package com.nhom2_kot104.ungdungdatcomtam.screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,17 +42,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.nhom2_kot104.ungdungdatcomtam.AppDatabase
 import com.nhom2_kot104.ungdungdatcomtam.R
+import com.nhom2_kot104.ungdungdatcomtam.UserViewModel
+import com.nhom2_kot104.ungdungdatcomtam.dao.UserDao
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun LoginScree(navController: NavController) {
+    val context = LocalContext.current
+//    val db = AppDatabase.getInstance(context)
+//    var userViewModel = UserViewModel(db)
+//    var loginState = userViewModel.loginState
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf(false) }
+
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding()
     ) {
         Column(
             modifier = Modifier
@@ -77,6 +98,7 @@ fun LoginScree(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+
             InputText(label = "Username: ", value = username) { newValue ->
                 username = newValue
             }
@@ -118,16 +140,44 @@ fun LoginScree(navController: NavController) {
                     .clip(RoundedCornerShape(30.dp))
                     .width(150.dp)
                     .height(50.dp)
-                    .background(color = Color("#FE724C".toColorInt())),
+                    .background(color = Color("#FE724C".toColorInt()))
+                    .clickable {
+                        if (username.equals("admin") && password.equals("123456")) {
+                            navController.navigate("home")
+                            Toast
+                                .makeText(context, "Đăng nhập thành công", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast
+                                .makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+//                        userViewModel.login(username, password)
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(text = "Login", color = Color.White, fontSize = 18.sp)
             }
             Row {
-                Text(text = "Do not have an account ? ", color = Color.White, fontSize = 18.sp)
-                Text(text = "Sign Up", color = Color("#FE724C".toColorInt()), fontSize = 18.sp)
+
             }
+
+//            Row(
+//                modifier = Modifier.clickable { navController.navigate("register") }
+//            ) {
+//                Text(text = "Do not have an account ? ", color = Color.White, fontSize = 18.sp)
+//                Text(text = "Sign Up", color = Color("#FE724C".toColorInt()), fontSize = 18.sp)
+//            }
+//            loginState.let {
+//                if(it.value != null){
+//                    if (loginState.value == true) {
+//                        Toast.makeText(context, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
+//                    }else{
+//                        Toast.makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -141,7 +191,7 @@ fun InputText(
     Column(
     ) {
         Text(text = label, fontSize = 16.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,

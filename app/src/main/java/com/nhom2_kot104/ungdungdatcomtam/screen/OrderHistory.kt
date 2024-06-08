@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -43,11 +44,13 @@ data class Order(
 )
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun OrderHistoryScreen(orders: List<Order>?,navController: NavHostController) {
+fun OrderHistoryScreen(orders: List<Order>,navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
-        }
+        },
+        modifier = Modifier.fillMaxSize()
+            .safeDrawingPadding()
     ) {
         Column(
             modifier = Modifier
@@ -70,7 +73,7 @@ fun OrderHistoryScreen(orders: List<Order>?,navController: NavHostController) {
                     .weight(1f)
                     .padding(16.dp)
             ) {
-                items(orders!!) { order ->
+                items(orders) { order ->
                     OrderItem(order)
                 }
             }

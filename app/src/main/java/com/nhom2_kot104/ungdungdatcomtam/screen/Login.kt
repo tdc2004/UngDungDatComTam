@@ -1,7 +1,9 @@
 package com.nhom2_kot104.ungdungdatcomtam.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -27,24 +30,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.nhom2_kot104.ungdungdatcomtam.R
+import com.nhom2_kot104.ungdungdatcomtam.UserViewModel
+import com.nhom2_kot104.ungdungdatcomtam.model.User
 
 @Composable
-fun LoginScreen() {
-    var phoneNumber by remember { mutableStateOf("") }
-    var phuong by remember { mutableStateOf("") }
-    var duong by remember { mutableStateOf("") }
-    var sonha by remember { mutableStateOf("") }
+fun LoginScreen(navController: NavController?) {
+//    val context = LocalContext.current
+//    var userViewModel: UserViewModel = viewModel()
+//    var loginState = userViewModel.loginState
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var repass by remember { mutableStateOf("") }
+    var pass by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,13 +77,13 @@ fun LoginScreen() {
                 modifier = Modifier.size(275.dp)
             )
             Text(
-                text = "Hello Phước",
+                text = "Đăng Ký",
                 fontSize = 20.sp,
                 color = Color.White,
             )
             Text(
-                text = "Vui lòng cập nhật thông tin chính xác để\n" +
-                        " thuận tiện cho việc giao hàng",
+                text = "Vui lòng điền đầy đủ thông tin để\n" +
+                        " truy cập vào ứng dụng",
                 fontSize = 15.sp,
                 color = Color.White,
                 textAlign = TextAlign.Center
@@ -84,33 +97,103 @@ fun LoginScreen() {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            InputField(label = "Số điện thoại", value = phoneNumber) {
+            InputField(label = "Họ tên", value = name) {
                     newValue ->
-                phoneNumber = newValue
+                name = newValue
             }
-            InputField(label = "Phường", value = phuong) {
-                newValue -> phuong = newValue
+            InputField(label = "Tên tài khoản", value = username) {
+                newValue -> username = newValue
 
             }
-            InputField(label = "Đường", value = duong) {
-                    newValue -> duong = newValue
+            Column {
+                Text(text = "Mật khẩu", fontSize = 16.sp, color = Color.White)
+                Spacer(modifier = Modifier.height(5.dp))
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    visualTransformation = if (pass) VisualTransformation.None else PasswordVisualTransformation(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(10.dp))
+                        .background(Color("#D9D9D9".toColorInt()))
+                        .height(50.dp),
+
+                    trailingIcon = {
+                        val icon = if (pass) {
+                            painterResource(id = R.drawable.eyenot)
+                        } else {
+                            painterResource(id = R.drawable.eye)
+                        }
+                        Icon(
+                            painter = icon,
+                            contentDescription = "Toggle password visibility",
+                            modifier = Modifier
+                                .clickable {
+                                    pass = !pass
+                                }
+                                .height(25.dp)
+                                .width(25.dp)
+                        )
+                    }
+                )
             }
-            InputField(label = "Số nhà", value = sonha) {
-                    newValue -> sonha = newValue
+            Column {
+                Text(text = "Nhắc lại mật khẩu", fontSize = 16.sp, color = Color.White)
+                Spacer(modifier = Modifier.height(5.dp))
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    visualTransformation = if (pass) VisualTransformation.None else PasswordVisualTransformation(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(10.dp))
+                        .background(Color("#D9D9D9".toColorInt()))
+                        .height(50.dp),
+
+                    trailingIcon = {
+                        val icon = if (pass) {
+                            painterResource(id = R.drawable.eyenot)
+                        } else {
+                            painterResource(id = R.drawable.eye)
+                        }
+                        Icon(
+                            painter = icon,
+                            contentDescription = "Toggle password visibility",
+                            modifier = Modifier
+                                .clickable {
+                                    pass = !pass
+                                }
+                                .height(25.dp)
+                                .width(25.dp)
+                        )
+                    }
+                )
             }
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(30.dp))
                     .width(150.dp)
                     .height(50.dp)
-                    .background(color = Color("#FE724C".toColorInt())),
+                    .background(color = Color("#FE724C".toColorInt()))
+                    .clickable {
+//                        var user = User(null,name,username,password);
+//                        userViewModel.register(user)
+                               navController?.navigate("login")
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Xác nhận", color = Color.White, fontSize = 18.sp)
+                Text(text = "Đăng kí", color = Color.White, fontSize = 18.sp)
             }
-
-
+//            loginState.let {
+//                if(loginState.value != null){
+//                    if (loginState.value == true) {
+//                        Toast.makeText(context, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
+//                    }else{
+//                        Toast.makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -145,5 +228,5 @@ fun InputField(
 )
 @Composable
 fun PreviewLogin() {
-    LoginScreen()
+    LoginScreen(null)
 }

@@ -36,7 +36,9 @@ fun HomeAdminScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
-        }
+        },
+        modifier = Modifier.fillMaxSize()
+            .safeDrawingPadding()
     ) {
         HomeContent(paddingValues = it)
     }
@@ -132,18 +134,18 @@ fun OrderItem(orderId: String, amount: String, status: String) {
 
 
 
-@Composable
-fun BottomNavigationItem(iconId: Int, label: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(
-            painter = painterResource(id = iconId),
-            contentDescription = label,
-            modifier = Modifier.size(24.dp),
-            tint = Color.White
-        )
-        Text(text = label, color = Color.White, fontSize = 12.sp)
-    }
-}
+//@Composable
+//fun BottomNavigationItem(iconId: Int, label: String) {
+//    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//        Icon(
+//            painter = painterResource(id = iconId),
+//            contentDescription = label,
+//            modifier = Modifier.size(24.dp),
+//            tint = Color.White
+//        )
+//        Text(text = label, color = Color.White, fontSize = 12.sp)
+//    }
+//}
 
 @Preview(showSystemUi = true, showBackground = true, device = "id:pixel_6_pro")
 @Composable
