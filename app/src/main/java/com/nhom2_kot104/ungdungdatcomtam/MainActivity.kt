@@ -32,6 +32,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.screen.CatergoryScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.EditImage
+import com.nhom2_kot104.ungdungdatcomtam.screen.EditProfile
+import com.nhom2_kot104.ungdungdatcomtam.screen.HoTro
 import com.nhom2_kot104.ungdungdatcomtam.screen.HomeAdminScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScree
 import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScreen
@@ -69,6 +72,9 @@ class MainActivity : ComponentActivity() {
                     composable("register") { LoginScreen(navController = navController) }
                     composable("mn_category") { CatergoryScreen(navController = navController) }
                     composable("mn_main") { ManagerMain(navController = navController) }
+                    composable("support") { HoTro(navController = navController) }
+                    composable("edit_pro") { EditProfile(navController = navController) }
+                    composable("edit_image") { EditImage(navController = navController) }
                 }
             }
         }
@@ -80,7 +86,7 @@ sealed class BottomNavItem(val route: String, val title: String, @DrawableRes va
     object Home : BottomNavItem("home", "Home", R.drawable.ic_home)
     object History : BottomNavItem("history", "History", R.drawable.ic_ls)
     object Managers : BottomNavItem("managers", "Managers", R.drawable.ic_ql)
-    object Profile : BottomNavItem("profile", "Profile", R.drawable.ic_per)
+    object Profile : BottomNavItem("support", "Profile", R.drawable.ic_per)
 }
 
 @Composable

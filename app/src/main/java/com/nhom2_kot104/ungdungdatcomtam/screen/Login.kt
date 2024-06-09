@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.R
 import com.nhom2_kot104.ungdungdatcomtam.database.DbHelper
 import com.nhom2_kot104.ungdungdatcomtam.model.UserAccount
@@ -51,7 +53,7 @@ import com.nhom2_kot104.ungdungdatcomtam.repositotry.UserRepository
 import com.nhom2_kot104.ungdungdatcomtam.viewmodel.UserViewModel
 
 @Composable
-fun LoginScreen(navController: NavController?) {
+fun LoginScreen(navController: NavController) {
     val context = LocalContext.current
     val userDao = DbHelper.getInstance(context).getUserDao()
     val repository = UserRepository(userDao)
@@ -64,11 +66,12 @@ fun LoginScreen(navController: NavController?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .safeDrawingPadding()
             .background(color = Color("#373232".toColorInt()))
     ) {
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.45F)
+                .fillMaxHeight(0.4F)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceAround
@@ -84,13 +87,7 @@ fun LoginScreen(navController: NavController?) {
                 fontSize = 20.sp,
                 color = Color.White,
             )
-            Text(
-                text = "Vui lòng điền đầy đủ thông tin để\n" +
-                        " truy cập vào ứng dụng",
-                fontSize = 15.sp,
-                color = Color.White,
-                textAlign = TextAlign.Center
-            )
+
         }
         Column(
             modifier = Modifier
@@ -144,8 +141,8 @@ fun LoginScreen(navController: NavController?) {
                 Text(text = "Nhắc lại mật khẩu", fontSize = 16.sp, color = Color.White)
                 Spacer(modifier = Modifier.height(5.dp))
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = repass,
+                    onValueChange = { repass = it },
                     visualTransformation = if (pass) VisualTransformation.None else PasswordVisualTransformation(),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -179,19 +176,38 @@ fun LoginScreen(navController: NavController?) {
                     .height(50.dp)
                     .background(color = Color("#FE724C".toColorInt()))
                     .clickable {
-                        try {
-                            var user = UserAccount(null,name,username,password,1)
-                            userViewModel.register(user)
-                            Toast.makeText(context , "Register Success Fully",Toast.LENGTH_SHORT).show()
-                        }catch (e : Exception){
-                            Toast.makeText(context , "Register Not Success Fully",Toast.LENGTH_SHORT).show()
+                        if (repass.equals(password)) {
+                            try {
+                                var user = UserAccount(null, name, username, password, 1)
+                                userViewModel.register(user)
+                                Toast
+                                    .makeText(context, "Đăng ký thành công", Toast.LENGTH_SHORT)
+                                    .show()
+                                navController.navigate("login")
+
+                            } catch (e: Exception) {
+                                Toast
+                                    .makeText(context, "Đăng ký thất bại", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        } else {
+                            Toast
+                                .makeText(context, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT)
+                                .show()
                         }
+
 //                               navController?.navigate("login")
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(text = "Đăng kí", color = Color.White, fontSize = 18.sp)
+            }
+            Row(
+                modifier = Modifier.clickable { navController.navigate("login") }
+            ) {
+                Text(text = "Already have an account ? ", color = Color.White, fontSize = 18.sp)
+                Text(text = "Sign In", color = Color("#FE724C".toColorInt()), fontSize = 18.sp)
             }
 //            loginState.let {
 //                if(loginState.value != null){
@@ -236,5 +252,6 @@ fun InputField(
 )
 @Composable
 fun PreviewLogin() {
-    LoginScreen(null)
+    var navController = rememberNavController()
+    LoginScreen(navController)
 }

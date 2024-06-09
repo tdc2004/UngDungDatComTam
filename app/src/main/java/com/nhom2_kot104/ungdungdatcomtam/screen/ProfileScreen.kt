@@ -20,9 +20,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -51,19 +53,16 @@ import com.nhom2_kot104.ungdungdatcomtam.R
 @Composable
 fun ProfileScreen(navController: NavHostController) {
     Scaffold(
-        bottomBar = {
-            BottomNavigationBar(navController = navController)
-        },
         modifier = Modifier
             .fillMaxSize()
             .safeDrawingPadding()
     ) {
-        ProfileContent()
+        ProfileContent(navController)
     }
 }
 
 @Composable
-fun ProfileContent() {
+fun ProfileContent(navController: NavHostController) {
 //    Column(
 //        modifier = Modifier
 //            .fillMaxSize()
@@ -147,14 +146,38 @@ fun ProfileContent() {
                     .height(140.dp),
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Hồ sơ",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.back),
+                        contentDescription = "Back",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                                navController.navigateUp()
+                            },
+                        tint = Color.White
+                    )
+                    Text(
+                        text = "Hồ sơ",
+                        textAlign = TextAlign.Center,
+
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Row(
+                        modifier = Modifier.width(24.dp)
+                    ) {
+
+                    }
+                }
+                Spacer(modifier = Modifier.height(15.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -164,13 +187,16 @@ fun ProfileContent() {
                 ) {
                     Text(
                         text = "Edit",
-                        fontSize = 20.sp,
+                        fontSize = 22.sp,
                         fontWeight = FontWeight.Normal,
-                        color = Color.White
+                        color = Color.White,
+                        modifier = Modifier.clickable {
+                            navController.navigate("edit_pro")
+                        }
                     )
                     Text(
                         text = "Signout",
-                        fontSize = 20.sp,
+                        fontSize = 22.sp,
                         fontWeight = FontWeight.Normal,
                         color = Color.White
                     )
@@ -210,7 +236,8 @@ fun ProfileContent() {
                 .background(Color(0xFF252121))
 //                .padding(top = 60.dp) // Tạo khoảng trống phía trên cho hình ảnh
                 .fillMaxHeight() ,
-            verticalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row {
 
@@ -239,8 +266,18 @@ fun ProfileContent() {
                     // Xử lý input
                 }
             }
-            Row {
-
+            Row(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(30.dp))
+                    .width(150.dp)
+                    .height(50.dp)
+                    .background(color = Color("#FE724C".toColorInt()))
+//                               navController?.navigate("login")
+                ,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(text = "Lưu", color = Color.White, fontSize = 18.sp)
             }
 
         }
@@ -273,8 +310,8 @@ fun Input(
 
 @Preview(showSystemUi = true, showBackground = true, device = "id:pixel_6_pro")
 @Composable
-fun preview() {
-    var navController = rememberNavController()
+fun Preview() {
+    val navController = rememberNavController()
     ProfileScreen(navController = navController)
 }
 
