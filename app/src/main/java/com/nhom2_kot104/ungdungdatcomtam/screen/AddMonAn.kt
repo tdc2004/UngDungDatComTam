@@ -23,19 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavHostController
 
-class AddMonAn : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            AddMonAnScreen()
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddMonAnScreen() {
+fun AddMonAnScreen(navController: NavHostController) {
     var LoaiMon by remember { mutableStateOf("") }
     var Mon by remember { mutableStateOf("") }
     var gia by remember { mutableStateOf("") }
@@ -46,6 +39,7 @@ fun AddMonAnScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
+                    .safeDrawingPadding()
                     .background(color = Color("#252121".toColorInt()))
             ) {
                 TopAppBar(
@@ -59,7 +53,9 @@ fun AddMonAnScreen() {
                                 imageVector = Icons.Default.ArrowBack,
                                 contentDescription = "Back",
                                 tint = Color.White,
-                                modifier = Modifier.clickable { /* Xử lý khi nhấn nút quay lại */ }
+                                modifier = Modifier.clickable { 
+                                    navController.navigateUp()
+                                }
                             )
                             Spacer(modifier = Modifier.width(16.dp))
                             Icon(
@@ -183,8 +179,8 @@ fun Input(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, device = "spec: parent=pixel_6_pro")
-@Composable
-fun PreviewAddMonAn() {
-    AddMonAnScreen()
-}
+//@Preview(showBackground = true, showSystemUi = true, device = "spec: parent=pixel_6_pro")
+//@Composable
+//fun PreviewAddMonAn() {
+//    AddMonAnScreen()
+//}

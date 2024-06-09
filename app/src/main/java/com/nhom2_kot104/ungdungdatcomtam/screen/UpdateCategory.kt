@@ -64,7 +64,10 @@ fun UpdateCategory(navController: NavHostController) {
                 contentDescription = "Back",
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(end = 8.dp),
+                    .padding(end = 8.dp)
+                    .clickable {
+                               navController.navigateUp()
+                    },
                 tint = Color.White
             )
             Image(

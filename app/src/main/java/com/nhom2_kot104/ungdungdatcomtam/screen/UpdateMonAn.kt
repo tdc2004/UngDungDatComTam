@@ -1,176 +1,171 @@
 package com.nhom2_kot104.ungdungdatcomtam
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavHostController
 
-data class FoodItem(val id: Int, val name: String, val price: String, val image: Int, val icon: Int)
 
-class UpdateMonAn : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            UpdateMonAnScreen()
-        }
-    }
-}
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateMonAnScreen() {
-    Scaffold(modifier = Modifier.fillMaxSize()) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color("#252121".toColorInt()))
-        ) {
-            TopAppBar(
-                title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxHeight()
-                    ) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.White,
-                            modifier = Modifier.clickable { /* Xử lý khi nhấn nút quay lại */ }
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            painter = painterResource(id = R.drawable.logo),
-                            contentDescription = "Logo",
-                            tint = Color.Unspecified,
-                            modifier = Modifier.size(60.dp)
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            text = "Cum tứm đim",
-                            color = Color.White,
-                            fontSize = 20.sp
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color("#252121".toColorInt()))
-            )
+fun AddDishScreen(navController: NavHostController) {
+    var tenMon by remember { mutableStateOf("") }
+    var gia by remember { mutableStateOf("") }
+    MaterialTheme {
+        Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Black)
-                    .height(5.dp)
-            ) {}
-            FoodListScreen()
+                    .fillMaxSize()
+                    .safeDrawingPadding()
+                    .background(color = Color("#252121".toColorInt()))
+            ) {
+                TopAppBar(
+                    title = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxHeight()
+                        ) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Back",
+                                tint = Color.White,
+                                modifier = Modifier.clickable {
+                                navController.navigateUp()/* Xử lý khi nhấn nút quay lại */ }
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Icon(
+                                painter = painterResource(id = R.drawable.logo),
+                                contentDescription = "Logo",
+                                tint = Color.Unspecified,
+                                modifier = Modifier.size(60.dp)
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                text = "Cum tứm đim",
+                                color = Color.White
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color("#252121".toColorInt()))
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Black)
+                        .height(5.dp)
+                ) {}
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                val imagePaninter: Painter = painterResource(id = R.drawable.ig_mon)
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .background(Color("#D9DCDF".toColorInt()), shape = RoundedCornerShape(8.dp))
+                        .border(1.dp, Color.LightGray, shape = RoundedCornerShape(8.dp))
+                        .clickable { /* Xử lý khi nhấn vào hình ảnh */ }
+                        .clip(RoundedCornerShape(8.dp)),
+                ) {
+                    Image(
+                        painter = imagePaninter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(180.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight(0.9F)
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Input(
+                        label = "Tên món ăn",
+                        value = tenMon
+                    ) { newValue ->
+                        tenMon = newValue
+                    }
+                    Input(
+                        label = "Giá",
+                        value = gia
+                    ) { newValue ->
+                        gia = newValue
+                    }
+
+                    Spacer(modifier = Modifier.height(50.dp)) // Thêm khoảng cách giữa các thành phần và nút "Thêm"
+
+                    Button(
+                        onClick = { /* Xử lý khi nhấn nút thêm */ },
+                        modifier = Modifier
+                            .width(174.dp)
+                            .height(50.dp)
+                            .border(
+                                10.dp,
+                                color = Color("#FFB703".toColorInt()),
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color("#FFB703".toColorInt())
+                        )
+                    ) {
+                        Text(text = "Lưu", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun FoodListScreen() {
-    val foodItems = listOf(
-        FoodItem(1, "Sườn bì", "28K", R.drawable.ig_mon, R.drawable.ic_pen),
-        FoodItem(2, "Bì chả", "25K", R.drawable.ig_mon, R.drawable.ic_pen),
-        FoodItem(3, "Trứng chả", "25K", R.drawable.ig_mon, R.drawable.ic_pen),
-        FoodItem(4, "Sườn chả", "28K", R.drawable.ig_mon, R.drawable.ic_pen),
-        FoodItem(5, "Sườn bì chả", "35K", R.drawable.ig_mon, R.drawable.ic_pen),
-        FoodItem(6, "Sườn cầy", "35K", R.drawable.ig_mon, R.drawable.ic_pen),
-        FoodItem(7, "Sườn trứng", "30K", R.drawable.ig_mon, R.drawable.ic_pen)
-    )
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        items(foodItems) { foodItem ->
-            FoodItemRow(foodItem)
-        }
-    }
-}
-
-@Composable
-fun FoodItemRow(foodItem: FoodItem) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .background(Color("#2F2D2D".toColorInt()))
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Row(
+fun InPut(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    Column {
+        Text(text = label, fontSize = 16.sp, color = Color.White)
+        Spacer(modifier = Modifier.height(5.dp))
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            singleLine = true,
             modifier = Modifier
-                .padding(5.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = foodItem.id.toString(),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Image(
-                painter = painterResource(id = foodItem.image),
-                contentDescription = foodItem.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(64.dp)
-                    .padding(end = 16.dp)
-            )
-        }
-        Column(
-            modifier = Modifier
-                .weight(0.1f)
-                .padding(end = 1.dp)
-        ) {
-            Text(
-                text = foodItem.name,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-            Text(
-                text = foodItem.price,
-                fontSize = 16.sp,
-                color = Color.Red
-            )
-        }
-        Icon(
-            painter = painterResource(id = foodItem.icon),
-            contentDescription = "Edit Icon",
-            tint = Color.White,
-            modifier = Modifier.size(24.dp)
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(10.dp))
+                .background(Color("#D9D9D9".toColorInt()))
+                .height(50.dp),
         )
     }
 }
-
-
-@Preview(showSystemUi = true, showBackground = true, device = "spec:parent=pixel_6_pro")
-@Composable
-fun PreviewUpdateMonAn() {
-    UpdateMonAnScreen()
-}
+//
+//@Preview(showBackground = true, showSystemUi = true, device = "spec: parent=pixel_6_pro")
+//@Composable
+//fun PreviewAddDish() {
+//    AddDishScreen()
+//}

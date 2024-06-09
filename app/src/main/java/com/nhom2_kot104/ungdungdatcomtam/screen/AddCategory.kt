@@ -3,6 +3,7 @@ package com.nhom2_kot104.ungdungdatcomtam.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -62,7 +63,8 @@ fun AddCategory(navController: NavHostController){
                 contentDescription = "Back",
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(end = 8.dp),
+                    .padding(end = 8.dp)
+                    .clickable { navController.navigateUp() },
                 tint = Color.White
             )
             Image(

@@ -135,7 +135,10 @@ fun CatergoryScreen(navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("add_cate")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -144,6 +147,7 @@ fun CatergoryScreen(navController: NavHostController) {
                         modifier = Modifier
                             .size(50.dp)
                             .clip(CircleShape)
+
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
@@ -158,7 +162,10 @@ fun CatergoryScreen(navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("update_cate")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -182,7 +189,10 @@ fun CatergoryScreen(navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("del_cate")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -191,6 +201,7 @@ fun CatergoryScreen(navController: NavHostController) {
                         modifier = Modifier
                             .size(50.dp)
                             .clip(CircleShape)
+
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(

@@ -31,7 +31,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.nhom2_kot104.ungdungdatcomtam.screen.AddCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.CatergoryScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.DeleteCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.EditImage
 import com.nhom2_kot104.ungdungdatcomtam.screen.EditProfile
 import com.nhom2_kot104.ungdungdatcomtam.screen.HoTro
@@ -41,8 +43,10 @@ import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerMain
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.Order
+import com.nhom2_kot104.ungdungdatcomtam.screen.OrderDetailScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.OrderHistoryScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.ProfileScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.WelcomeScreen
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
@@ -75,6 +79,13 @@ class MainActivity : ComponentActivity() {
                     composable("support") { HoTro(navController = navController) }
                     composable("edit_pro") { EditProfile(navController = navController) }
                     composable("edit_image") { EditImage(navController = navController) }
+                    composable("add_cate") { AddCategory(navController = navController) }
+                    composable("update_cate") { UpdateCategory(navController = navController) }
+                    composable("del_cate") { DeleteCategory(navController = navController) }
+                    composable("add_monan") { AddMonAnScreen(navController = navController) }
+                    composable("update_monan") { AddDishScreen(navController = navController) }
+                    composable("del_monan") { DeleteMonAnScreen(navController = navController) }
+
                 }
             }
         }

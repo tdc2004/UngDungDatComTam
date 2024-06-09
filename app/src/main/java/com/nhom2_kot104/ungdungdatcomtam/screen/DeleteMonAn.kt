@@ -24,27 +24,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavHostController
 
 data class FoodsItem(val id: Int, val name: String, val price: String, val image: Int, val icon: Int)
 
-class DeleteMonAn : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            DeleteMonAnScreen()
-        }
-    }
-}
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DeleteMonAnScreen() {
+fun DeleteMonAnScreen(navController: NavHostController) {
     Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
+                .safeDrawingPadding()
                 .background(color = Color("#252121".toColorInt()))
         ) {
             TopAppBar(
@@ -58,7 +53,8 @@ fun DeleteMonAnScreen() {
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
                             tint = Color.White,
-                            modifier = Modifier.clickable { /* Xử lý khi nhấn nút quay lại */ }
+                            modifier = Modifier.clickable {
+                            navController.navigateUp()/* Xử lý khi nhấn nút quay lại */ }
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Icon(
@@ -168,9 +164,9 @@ fun FoodsItemRow(foodItem: FoodsItem) {
     }
 }
 
-
-@Preview(showSystemUi = true, showBackground = true, device = "spec:parent=pixel_6_pro")
-@Composable
-fun PreviewDeleteMonAn() {
-    DeleteMonAnScreen()
-}
+//
+//@Preview(showSystemUi = true, showBackground = true, device = "spec:parent=pixel_6_pro")
+//@Composable
+//fun PreviewDeleteMonAn() {
+//    DeleteMonAnScreen()
+//}

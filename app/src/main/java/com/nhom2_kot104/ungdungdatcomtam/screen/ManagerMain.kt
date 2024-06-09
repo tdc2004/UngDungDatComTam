@@ -97,7 +97,10 @@ fun ManagerMain(navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("add_monan")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -120,7 +123,10 @@ fun ManagerMain(navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("update_monan")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -144,7 +150,10 @@ fun ManagerMain(navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .clickable {
+                            navController.navigate("del_monan")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
