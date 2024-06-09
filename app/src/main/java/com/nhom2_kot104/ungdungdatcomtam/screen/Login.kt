@@ -45,14 +45,17 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nhom2_kot104.ungdungdatcomtam.R
-import com.nhom2_kot104.ungdungdatcomtam.UserViewModel
-import com.nhom2_kot104.ungdungdatcomtam.model.User
+import com.nhom2_kot104.ungdungdatcomtam.database.DbHelper
+import com.nhom2_kot104.ungdungdatcomtam.model.UserAccount
+import com.nhom2_kot104.ungdungdatcomtam.repositotry.UserRepository
+import com.nhom2_kot104.ungdungdatcomtam.viewmodel.UserViewModel
 
 @Composable
 fun LoginScreen(navController: NavController?) {
-//    val context = LocalContext.current
-//    var userViewModel: UserViewModel = viewModel()
-//    var loginState = userViewModel.loginState
+    val context = LocalContext.current
+    val userDao = DbHelper.getInstance(context).getUserDao()
+    val repository = UserRepository(userDao)
+    val userViewModel: UserViewModel = viewModel(factory = UserViewModel.ViewModelFactory(repository))
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var repass by remember { mutableStateOf("") }
@@ -176,9 +179,14 @@ fun LoginScreen(navController: NavController?) {
                     .height(50.dp)
                     .background(color = Color("#FE724C".toColorInt()))
                     .clickable {
-//                        var user = User(null,name,username,password);
-//                        userViewModel.register(user)
-                               navController?.navigate("login")
+                        try {
+                            var user = UserAccount(null,name,username,password,1)
+                            userViewModel.register(user)
+                            Toast.makeText(context , "Register Success Fully",Toast.LENGTH_SHORT).show()
+                        }catch (e : Exception){
+                            Toast.makeText(context , "Register Not Success Fully",Toast.LENGTH_SHORT).show()
+                        }
+//                               navController?.navigate("login")
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
