@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +21,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,23 +35,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.R
 import com.nhom2_kot104.ungdungdatcomtam.model.Category
+import com.nhom2_kot104.ungdungdatcomtam.viewmodel.CategoryViewModel
 
 @Composable
 fun UpdateCategory(navController: NavHostController) {
-    val categories = remember {
-        mutableStateListOf(
-            Category(id = "1", name = "Loại 1"),
-            Category(id = "2", name = "Loại 2"),
-            Category(id = "3", name = "Loại 3")
-        )
-    }
+//    val categories = remember {
+//        mutableStateListOf(
+//            Category(id = "1", name = "Loại 1"),
+//            Category(id = "2", name = "Loại 2"),
+//            Category(id = "3", name = "Loại 3")
+//        )
+//    }
+    val categoryViewModel: CategoryViewModel = viewModel()
+    val categories by categoryViewModel.allCategories.observeAsState(initial = emptyList())
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .safeDrawingPadding()
             .background(color = Color("#252121".toColorInt())),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -94,14 +103,14 @@ fun UpdateCategory(navController: NavHostController) {
                 .padding(16.dp)
         ) {
             items(categories) { category ->
-                CategoryItem(category)
+                CategoryItem(category,navController)
             }
         }
 
     }
 }
 @Composable
-fun CategoryItem(category: Category) {
+fun CategoryItem(category: Category,navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -112,7 +121,7 @@ fun CategoryItem(category: Category) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = category.id,
+            text = category.uid.toString(),
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
@@ -131,7 +140,7 @@ fun CategoryItem(category: Category) {
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-                    // Hành động khi nhấn vào icon sửa
+                    navController.navigate("edit_category/${category.uid}")
                 },
             tint = Color.White
         )

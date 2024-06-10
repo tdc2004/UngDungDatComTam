@@ -27,10 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.nhom2_kot104.ungdungdatcomtam.screen.AddCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.CatergoryScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.DeleteCategory
@@ -47,8 +49,10 @@ import com.nhom2_kot104.ungdungdatcomtam.screen.OrderDetailScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.OrderHistoryScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.ProfileScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateCategory
+import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateEditCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.WelcomeScreen
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
+import com.nhom2_kot104.ungdungdatcomtam.viewmodel.CategoryViewModel
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -66,10 +70,15 @@ class MainActivity : ComponentActivity() {
                 Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k")
             )
             Scaffold() {
-                NavHost(navController = navController, startDestination = "welcome"){
+                NavHost(navController = navController, startDestination = "welcome") {
                     composable("welcome") { WelcomeScreen(navController = navController) }
                     composable("home") { HomeAdminScreen(navController = navController) }
-                    composable("history") { OrderHistoryScreen(orders = orders,navController = navController) }
+                    composable("history") {
+                        OrderHistoryScreen(
+                            orders = orders,
+                            navController = navController
+                        )
+                    }
                     composable("login") { LoginScree(navController = navController) }
                     composable("profile") { ProfileScreen(navController = navController) }
                     composable("managers") { ManagerScreen(navController = navController) }
@@ -85,7 +94,13 @@ class MainActivity : ComponentActivity() {
                     composable("add_monan") { AddMonAnScreen(navController = navController) }
                     composable("update_monan") { AddDishScreen(navController = navController) }
                     composable("del_monan") { DeleteMonAnScreen(navController = navController) }
-
+                    composable(
+                        "edit_category/{categoryId}",
+                        arguments = listOf(navArgument("categoryId") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: -1
+                        UpdateEditCategory(navController = navController, categoryId = categoryId)
+                    }
                 }
             }
         }

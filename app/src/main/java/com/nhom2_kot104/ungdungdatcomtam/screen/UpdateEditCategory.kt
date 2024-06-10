@@ -27,8 +27,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,13 +49,17 @@ import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.R
 import com.nhom2_kot104.ungdungdatcomtam.model.Category
 import com.nhom2_kot104.ungdungdatcomtam.viewmodel.CategoryViewModel
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 @Composable
-fun AddCategory(navController: NavHostController) {
+fun UpdateEditCategory(navController: NavHostController,categoryId: Int) {
     val context = LocalContext.current;
-    var category by remember { mutableStateOf("") }
-    val addCategoryViewModel: CategoryViewModel = viewModel()
+    val categoryViewModel: CategoryViewModel = viewModel()
+    val category by categoryViewModel.getCategory(categoryId).observeAsState()
+    var categoryNew by remember { mutableStateOf(category?.name.orEmpty()) } // Khởi tạo và lưu trữ tên danh mục mới
+
+    val scope = rememberCoroutineScope()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -100,17 +106,19 @@ fun AddCategory(navController: NavHostController) {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
-                value = category,
-                onValueChange = { category = it },
-                singleLine = true,
-                placeholder = { Text(text = "Nhập loại món ăn") },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .clip(shape = RoundedCornerShape(10.dp))
-                    .background(Color("#D9D9D9".toColorInt()))
-                    .height(50.dp),
-            )
+            category?.let {
+                OutlinedTextField(
+                    value = categoryNew,
+                    onValueChange = { categoryNew = it },
+                    singleLine = true,
+                    placeholder = { Text(text = category!!.name) },
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .clip(shape = RoundedCornerShape(10.dp))
+                        .background(Color("#D9D9D9".toColorInt()))
+                        .height(50.dp),
+                )
+            }
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
@@ -118,11 +126,12 @@ fun AddCategory(navController: NavHostController) {
                     .height(40.dp)
                     .background(color = Color("#FFB703".toColorInt()))
                     .clickable {
-                        val newCategory = Category(null, category)
-                        addCategoryViewModel.insert(newCategory)
-                        category = ""
-                        Toast.makeText(context, "Thêm loại món ăn thành công", Toast.LENGTH_SHORT).show()
-
+                        scope.launch {
+                            val newCategory = Category(categoryId, categoryNew)
+                            categoryViewModel.update(newCategory)
+                            categoryNew = ""
+                            Toast.makeText(context, "Sửa loại món ăn thành công", Toast.LENGTH_SHORT).show()
+                        }
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -135,7 +144,7 @@ fun AddCategory(navController: NavHostController) {
 
 @Preview(showSystemUi = true, showBackground = true, device = "id:pixel_6_pro")
 @Composable
-fun previewAddCatogory() {
+fun PreviewDCatogory() {
     var navController = rememberNavController()
-    AddCategory(navController = navController)
+    UpdateEditCategory(navController = navController,1)
 }
