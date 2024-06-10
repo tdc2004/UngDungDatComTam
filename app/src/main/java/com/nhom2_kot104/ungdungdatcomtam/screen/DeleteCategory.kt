@@ -49,13 +49,6 @@ import com.nhom2_kot104.ungdungdatcomtam.viewmodel.CategoryViewModel
 
 @Composable
     fun DeleteCategory(navController: NavHostController) {
-//    val categories = remember {
-//        mutableStateListOf(
-//            Category(id = "1", name = "Loại 1"),
-//            Category(id = "2", name = "Loại 2"),
-//            Category(id = "3", name = "Loại 3")
-//        )
-//    }
     val categoryViewModel: CategoryViewModel = viewModel()
     val categories by categoryViewModel.allCategories.observeAsState(initial = emptyList())
     Column(

@@ -1,6 +1,5 @@
 package com.nhom2_kot104.ungdungdatcomtam.screen
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -86,7 +85,7 @@ fun AddCategory(navController: NavHostController) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Cum tấm dim",
+                text = "Cum tấm đim",
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
