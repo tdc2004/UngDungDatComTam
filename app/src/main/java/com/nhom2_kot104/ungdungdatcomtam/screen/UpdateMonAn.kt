@@ -1,171 +1,229 @@
 package com.nhom2_kot104.ungdungdatcomtam
 
+import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import com.nhom2_kot104.ungdungdatcomtam.model.Dish
+import com.nhom2_kot104.ungdungdatcomtam.viewmodel.DishViewModel
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddDishScreen(navController: NavHostController) {
-    var tenMon by remember { mutableStateOf("") }
-    var gia by remember { mutableStateOf("") }
-    MaterialTheme {
-        Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+fun UpdateMonAnScreen(navController: NavHostController) {
+    val dishViewModel: DishViewModel = viewModel()
+    val dishes by dishViewModel.allDishs.observeAsState(initial = emptyList())
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .safeDrawingPadding()
+                .background(color = Color("#252121".toColorInt()))
+        ) {
+//            TopAppBar(
+//                title = {
+//                    Row(
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        modifier = Modifier.fillMaxHeight()
+//                    ) {
+//                        Spacer(modifier = Modifier.width(8.dp))
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowBack,
+//                            contentDescription = "Back",
+//                            tint = Color.White,
+//                            modifier = Modifier.clickable {
+//                                navController.navigateUp()/* Xử lý khi nhấn nút quay lại */
+//                            }
+//                        )
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.logo),
+//                            contentDescription = "Logo",
+//                            tint = Color.Unspecified,
+//                            modifier = Modifier.size(60.dp)
+//                        )
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                        Text(
+//                            text = "Cum tứm đim",
+//                            color = Color.White,
+//                            fontSize = 20.sp
+//                        )
+//                    }
+//                },
+//                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color("#252121".toColorInt()))
+//            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .height(80.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.back),
+                    contentDescription = "Back",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(end = 8.dp)
+                        .clickable {
+                            navController.navigateUp()
+                        },
+                    tint = Color.White
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Profile Image",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Cum tấm dim",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            Divider(modifier = Modifier.height(3.dp), color = Color.Black)
+
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .safeDrawingPadding()
-                    .background(color = Color("#252121".toColorInt()))
+                    .padding(8.dp)
             ) {
-                TopAppBar(
-                    title = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxHeight()
-                        ) {
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back",
-                                tint = Color.White,
-                                modifier = Modifier.clickable {
-                                navController.navigateUp()/* Xử lý khi nhấn nút quay lại */ }
-                            )
-                            Spacer(modifier = Modifier.width(16.dp))
-                            Icon(
-                                painter = painterResource(id = R.drawable.logo),
-                                contentDescription = "Logo",
-                                tint = Color.Unspecified,
-                                modifier = Modifier.size(60.dp)
-                            )
-                            Spacer(modifier = Modifier.width(16.dp))
-                            Text(
-                                text = "Cum tứm đim",
-                                color = Color.White
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color("#252121".toColorInt()))
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.Black)
-                        .height(5.dp)
-                ) {}
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                val imagePaninter: Painter = painterResource(id = R.drawable.ig_mon)
-                Box(
-                    modifier = Modifier
-                        .size(180.dp)
-                        .background(Color("#D9DCDF".toColorInt()), shape = RoundedCornerShape(8.dp))
-                        .border(1.dp, Color.LightGray, shape = RoundedCornerShape(8.dp))
-                        .clickable { /* Xử lý khi nhấn vào hình ảnh */ }
-                        .clip(RoundedCornerShape(8.dp)),
-                ) {
-                    Image(
-                        painter = imagePaninter,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(180.dp)
-                            .align(Alignment.Center)
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight(0.9F)
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceEvenly,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Input(
-                        label = "Tên món ăn",
-                        value = tenMon
-                    ) { newValue ->
-                        tenMon = newValue
-                    }
-                    Input(
-                        label = "Giá",
-                        value = gia
-                    ) { newValue ->
-                        gia = newValue
-                    }
-
-                    Spacer(modifier = Modifier.height(50.dp)) // Thêm khoảng cách giữa các thành phần và nút "Thêm"
-
-                    Button(
-                        onClick = { /* Xử lý khi nhấn nút thêm */ },
-                        modifier = Modifier
-                            .width(174.dp)
-                            .height(50.dp)
-                            .border(
-                                10.dp,
-                                color = Color("#FFB703".toColorInt()),
-                                shape = RoundedCornerShape(10.dp)
-                            ),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color("#FFB703".toColorInt())
-                        )
-                    ) {
-                        Text(text = "Lưu", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    }
+                items(dishes) { foodItem ->
+                    UpdateItem(foodItem,navController)
                 }
             }
         }
     }
 }
 
+//@Composable
+//fun FoodsListScreen(dish: List<Dish>) {
+//
+//
+//    LazyColumn(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(8.dp)
+//    ) {
+//        items() { foodItem ->
+//            FoodsItemRow(foodItem)
+//        }
+//    }
+//}
+
+
 @Composable
-fun InPut(
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit
-) {
-    Column {
-        Text(text = label, fontSize = 16.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(5.dp))
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            singleLine = true,
+fun UpdateItem(dish: Dish, navController: NavHostController) {
+    val imagePath: String = dish.image
+
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color("#2F2D2D".toColorInt()))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(10.dp))
-                .background(Color("#D9D9D9".toColorInt()))
-                .height(50.dp),
+                .padding(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = dish.uid.toString(),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+            Log.e("Image", dish.image)
+            val placeholderPainter = painterResource(id = R.drawable.ig_mon)
+            AsyncImage(
+                model = imagePath,
+                contentDescription = dish.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(50.dp),
+                placeholder = placeholderPainter
+
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(0.1f)
+                .padding(end = 1.dp)
+        ) {
+            Text(
+                text = dish.name,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Text(
+                text = dish.price.toString(),
+                fontSize = 16.sp,
+                color = Color.Red
+            )
+        }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_pen),
+            contentDescription = "Edit",
+            modifier = Modifier
+                .size(24.dp)
+                .clickable {
+                    navController.navigate("edit_monan/${dish.uid}")
+                },
+            tint = Color.White
         )
     }
 }
+
 //
-//@Preview(showBackground = true, showSystemUi = true, device = "spec: parent=pixel_6_pro")
+//@Preview(showSystemUi = true, showBackground = true, device = "spec:parent=pixel_6_pro")
 //@Composable
-//fun PreviewAddDish() {
-//    AddDishScreen()
+//fun PreviewDeleteMonAn() {
+//    DeleteMonAnScreen()
 //}

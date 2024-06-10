@@ -62,7 +62,7 @@ fun HomeContent(paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .height(80.dp),
+                .height(70.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(

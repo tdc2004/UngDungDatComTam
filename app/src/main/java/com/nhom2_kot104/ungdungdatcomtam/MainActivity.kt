@@ -6,26 +6,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -45,14 +38,12 @@ import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerMain
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.Order
-import com.nhom2_kot104.ungdungdatcomtam.screen.OrderDetailScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.OrderHistoryScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.ProfileScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateEditCategory
+import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateEditMonAn
 import com.nhom2_kot104.ungdungdatcomtam.screen.WelcomeScreen
-import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
-import com.nhom2_kot104.ungdungdatcomtam.viewmodel.CategoryViewModel
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -92,7 +83,7 @@ class MainActivity : ComponentActivity() {
                     composable("update_cate") { UpdateCategory(navController = navController) }
                     composable("del_cate") { DeleteCategory(navController = navController) }
                     composable("add_monan") { AddMonAnScreen(navController = navController) }
-                    composable("update_monan") { AddDishScreen(navController = navController) }
+                    composable("update_monan") { UpdateMonAnScreen(navController = navController) }
                     composable("del_monan") { DeleteMonAnScreen(navController = navController) }
                     composable(
                         "edit_category/{categoryId}",
@@ -100,6 +91,13 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: -1
                         UpdateEditCategory(navController = navController, categoryId = categoryId)
+                    }
+                    composable(
+                        "edit_monan/{dishId}",
+                        arguments = listOf(navArgument("dishId") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        val dishId = backStackEntry.arguments?.getInt("dishId") ?: -1
+                        UpdateEditMonAn(navController = navController, dishId = dishId)
                     }
                 }
             }

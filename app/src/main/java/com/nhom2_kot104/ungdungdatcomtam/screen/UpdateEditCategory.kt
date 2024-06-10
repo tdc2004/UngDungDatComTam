@@ -71,7 +71,7 @@ fun UpdateEditCategory(navController: NavHostController,categoryId: Int) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .height(80.dp),
+                .height(70.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -132,6 +132,7 @@ fun UpdateEditCategory(navController: NavHostController,categoryId: Int) {
                             categoryNew = ""
                             Toast.makeText(context, "Sửa loại món ăn thành công", Toast.LENGTH_SHORT).show()
                         }
+                        navController.navigateUp()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center

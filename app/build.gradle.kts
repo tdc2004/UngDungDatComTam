@@ -80,5 +80,6 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
+    implementation ("io.coil-kt:coil-compose:2.1.0")
 
 }
