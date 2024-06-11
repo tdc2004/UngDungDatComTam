@@ -1,5 +1,6 @@
 package com.nhom2_kot104.ungdungdatcomtam
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -49,6 +50,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.nhom2_kot104.ungdungdatcomtam.model.Category
 import com.nhom2_kot104.ungdungdatcomtam.model.Dish
 import com.nhom2_kot104.ungdungdatcomtam.viewmodel.CategoryViewModel
 import com.nhom2_kot104.ungdungdatcomtam.viewmodel.DishViewModel
@@ -71,9 +73,10 @@ fun AddMonAnScreen(navController: NavHostController) {
     var selectedCategory by remember { mutableStateOf(categories.firstOrNull()) }
 
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        selectedImageUri = uri
-    }
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            selectedImageUri = uri
+        }
     MaterialTheme {
         Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
             Column(
@@ -132,13 +135,13 @@ fun AddMonAnScreen(navController: NavHostController) {
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    if(selectedImageUri != null){
+                    if (selectedImageUri != null) {
                         AsyncImage(
                             model = selectedImageUri,
                             contentDescription = "Selected Image",
                             modifier = Modifier.fillMaxSize()
                         )
-                    }else{
+                    } else {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(
                                 imageVector = Icons.Default.Add,
@@ -183,44 +186,128 @@ fun AddMonAnScreen(navController: NavHostController) {
 
                     Spacer(modifier = Modifier.height(50.dp)) // Thêm khoảng cách giữa các thành phần và nút "Thêm"
 
-                    Button(
-                        onClick = {
-                            val priceDouble = gia.toDoubleOrNull()
-                            if (priceDouble != null && selectedCategory != null) {
-                                val dish = selectedImageUri?.toString()?.let {
-                                    Dish(
-                                        null,
-                                        name = tenMon,
-                                        price = priceDouble,
-                                        categoryId = selectedCategory!!.uid ?: 0,
-                                        image = it
-                                    )
-                                }
-                                dish?.let { dishViewModel.insert(it) }
-                                Toast.makeText(context,"Thêm thành công",Toast.LENGTH_SHORT).show()
-                                navController.navigateUp()
-                            } else {
-                                // Xử lý lỗi: giá không phải là số hoặc không chọn được loại món
-                            }
-                        },
+//                    Button(
+//                        onClick = {
+//                            val priceDouble = gia.toDoubleOrNull()
+//                            if (priceDouble != null && selectedCategory != null) {
+//                                val dish = selectedImageUri?.toString()?.let {
+//                                    Dish(
+//                                        null,
+//                                        name = tenMon,
+//                                        price = priceDouble,
+//                                        categoryId = selectedCategory!!.uid ?: 0,
+//                                        image = it
+//                                    )
+//                                }
+//                                dish?.let { dishViewModel.insert(it) }
+//                                Toast.makeText(context, "Thêm thành công", Toast.LENGTH_SHORT)
+//                                    .show()
+//                                navController.navigateUp()
+//                            } else {
+//                                // Xử lý lỗi: giá không phải là số hoặc không chọn được loại món
+//                            }
+//                        },
+//                        modifier = Modifier
+//                            .clip(RoundedCornerShape(10.dp))
+//                            .width(170.dp)
+//                            .height(40.dp)
+//                            .background(color = Color("#FFB703".toColorInt())),
+//                        colors = ButtonDefaults.buttonColors(
+//                            containerColor = Color("#FFB703".toColorInt())
+//                        )
+//                    ) {
+//                        Text(text = "Thêm", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+//                    }
+                    Row(
                         modifier = Modifier
-                            .width(174.dp)
-                            .height(50.dp)
-                            .border(
-                                10.dp,
-                                color = Color("#FFB703".toColorInt()),
-                                shape = RoundedCornerShape(10.dp)
-                            ),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color("#FFB703".toColorInt())
-                        )
+                            .clip(RoundedCornerShape(10.dp))
+                            .width(170.dp)
+                            .height(40.dp)
+                            .background(color = Color("#FFB703".toColorInt()))
+                            .clickable {
+//                                val priceDouble = gia.toDoubleOrNull()
+//                                if (priceDouble != null && selectedCategory != null) {
+//                                    val dish = selectedImageUri
+//                                        ?.toString()
+//                                        ?.let {
+//                                            Dish(
+//                                                null,
+//                                                name = tenMon,
+//                                                price = priceDouble,
+//                                                categoryId = selectedCategory!!.uid ?: 0,
+//                                                image = it
+//                                            )
+//                                        }
+//                                    dish?.let { dishViewModel.insert(it) }
+//                                    Toast
+//                                        .makeText(context, "Thêm thành công", Toast.LENGTH_SHORT)
+//                                        .show()
+//                                    navController.navigateUp()
+//                                } else {
+////                                 Xử lý lỗi: giá không phải là số hoặc không chọn được loại món
+//                                }
+                                validateAndAddDish(
+                                    tenMon,
+                                    gia,
+                                    selectedCategory,
+                                    selectedImageUri,
+                                    dishViewModel,
+                                    context,
+                                    navController
+                                )
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Text(text = "Thêm", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Text(text = "Lưu", color = Color.White, fontSize = 18.sp)
                     }
                 }
             }
         }
     }
+}
+fun validateAndAddDish(
+    tenMon: String,
+    gia: String,
+    selectedCategory: Category?,
+    selectedImageUri: Uri?,
+    dishViewModel: DishViewModel,
+    context: Context,
+    navController: NavHostController
+) {
+    val priceDouble = gia.toDoubleOrNull()
+
+    if (tenMon.isBlank()) {
+        Toast.makeText(context, "Vui lòng nhập tên món ăn.", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    if (priceDouble == null || priceDouble <= 0) {
+        Toast.makeText(context, "Vui lòng nhập giá hợp lệ.", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    if (selectedCategory == null) {
+        Toast.makeText(context, "Vui lòng chọn loại món ăn.", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    if (selectedImageUri == null) {
+        Toast.makeText(context, "Vui lòng chọn hình ảnh.", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    val dish = Dish(
+        uid = null,
+        name = tenMon,
+        price = priceDouble,
+        categoryId = selectedCategory.uid ?: 0,
+        image = selectedImageUri.toString()
+    )
+
+    dishViewModel.insert(dish)
+    Toast.makeText(context, "Thêm thành công", Toast.LENGTH_SHORT).show()
+    navController.navigateUp()
 }
 
 @Composable

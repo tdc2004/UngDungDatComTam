@@ -37,8 +37,8 @@ import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScree
 import com.nhom2_kot104.ungdungdatcomtam.screen.LoginScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerMain
 import com.nhom2_kot104.ungdungdatcomtam.screen.ManagerScreen
-import com.nhom2_kot104.ungdungdatcomtam.screen.Order
 import com.nhom2_kot104.ungdungdatcomtam.screen.OrderHistoryScreen
+import com.nhom2_kot104.ungdungdatcomtam.screen.Orders
 import com.nhom2_kot104.ungdungdatcomtam.screen.ProfileScreen
 import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateCategory
 import com.nhom2_kot104.ungdungdatcomtam.screen.UpdateEditCategory
@@ -53,12 +53,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val orders = listOf(
-                Order("Đơn hàng đã chấp nhận", "10/03/2023", "9:20", "3 món", "98k"),
-                Order("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
-                Order("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
-                Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
-                Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
-                Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k")
+                Orders("Đơn hàng đã chấp nhận", "10/03/2023", "9:20", "3 món", "98k"),
+                Orders("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
+                Orders("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
+                Orders("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
+                Orders("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
+                Orders("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k")
             )
             Scaffold() {
                 NavHost(navController = navController, startDestination = "welcome") {

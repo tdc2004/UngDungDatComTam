@@ -35,7 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.nhom2_kot104.ungdungdatcomtam.BottomNavigationBar
 import com.nhom2_kot104.ungdungdatcomtam.ui.theme.UngDungDatComTamTheme
 
-data class Order(
+data class Orders(
     val status: String,
     val date: String,
     val time: String,
@@ -44,7 +44,7 @@ data class Order(
 )
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun OrderHistoryScreen(orders: List<Order>,navController: NavHostController) {
+fun OrderHistoryScreen(orders: List<Orders>,navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)
@@ -84,7 +84,7 @@ fun OrderHistoryScreen(orders: List<Order>,navController: NavHostController) {
 }
 
 @Composable
-fun OrderItem(order: Order) {
+fun OrderItem(order: Orders) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,12 +127,12 @@ fun OrderItem(order: Order) {
 @Composable
 fun PreviewOrderHistory() {
     val orders = listOf(
-        Order("Đơn hàng đã chấp nhận", "10/03/2023", "9:20", "3 món", "98k"),
-        Order("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
-        Order("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
-        Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
-        Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
-        Order("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k")
+        Orders("Đơn hàng đã chấp nhận", "10/03/2023", "9:20", "3 món", "98k"),
+        Orders("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
+        Orders("Đơn hàng đã bị huỷ", "10/03/2023", "9:20", "3 món", "98k"),
+        Orders("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
+        Orders("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k"),
+        Orders("Đơn hàng đã được giao", "10/03/2023", "9:20", "3 món", "98k")
     )
     val navController = rememberNavController()
     OrderHistoryScreen(orders,navController )

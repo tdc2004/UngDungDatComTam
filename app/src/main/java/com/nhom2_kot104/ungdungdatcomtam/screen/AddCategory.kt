@@ -117,11 +117,15 @@ fun AddCategory(navController: NavHostController) {
                     .height(40.dp)
                     .background(color = Color("#FFB703".toColorInt()))
                     .clickable {
-                        val newCategory = Category(null, category)
-                        addCategoryViewModel.insert(newCategory)
-                        category = ""
-                        Toast.makeText(context, "Thêm loại món ăn thành công", Toast.LENGTH_SHORT).show()
-
+                        if (category.isNotBlank()) {
+                            val newCategory = Category(null, category)
+                            addCategoryViewModel.insert(newCategory)
+                            category = ""
+                            Toast.makeText(context, "Thêm loại món ăn thành công", Toast.LENGTH_SHORT).show()
+                            navController.navigateUp()
+                        } else {
+                            Toast.makeText(context, "Vui lòng nhập loại món ăn", Toast.LENGTH_SHORT).show()
+                        }
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center

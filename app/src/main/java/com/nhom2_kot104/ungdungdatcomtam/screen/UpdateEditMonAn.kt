@@ -34,11 +34,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.nhom2_kot104.ungdungdatcomtam.R
+import com.nhom2_kot104.ungdungdatcomtam.model.Category
 import com.nhom2_kot104.ungdungdatcomtam.model.Dish
 import com.nhom2_kot104.ungdungdatcomtam.viewmodel.DishViewModel
 import kotlinx.coroutines.launch
 import kotlin.text.toDoubleOrNull
-
 
 
 @Composable
@@ -49,7 +49,6 @@ fun UpdateEditMonAn(navController: NavHostController, dishId: Int) {
     var dishNew by remember { mutableStateOf(dish?.name.orEmpty()) } // Khởi tạo và lưu trữ tên danh mục mới
     var giaMonMoi by remember { mutableStateOf(dish?.price ?: 0.0) }
     val scope = rememberCoroutineScope()
-
 
 
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -177,37 +176,70 @@ fun UpdateEditMonAn(navController: NavHostController, dishId: Int) {
 
                     Spacer(modifier = Modifier.height(50.dp)) // Thêm khoảng cách giữa các thành phần và nút "Thêm"
 
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                val imageUriString: String = selectedImageUri?.toString() ?: ""
-                                dish?.let { existingDish ->
-                                    val newDish = Dish(
-                                        uid = existingDish.uid,
-                                        name = dishNew,
-                                        price = giaMonMoi,
-                                        image = imageUriString,
-                                        categoryId = existingDish.categoryId
-                                    )
-                                    dishViewModel.update(newDish)
-                                    Toast.makeText(context, "Sửa món ăn thành công", Toast.LENGTH_SHORT).show()
-                                }
-                                navController.navigateUp()
-                            }
-                        },
+//                    Button(
+//                        onClick = {
+//                            scope.launch {
+//                                val imageUriString: String = selectedImageUri?.toString() ?: ""
+//                                dish?.let { existingDish ->
+//                                    val newDish = Dish(
+//                                        uid = existingDish.uid,
+//                                        name = dishNew,
+//                                        price = giaMonMoi,
+//                                        image = imageUriString,
+//                                        categoryId = existingDish.categoryId
+//                                    )
+//                                    dishViewModel.update(newDish)
+//                                    Toast.makeText(context, "Sửa món ăn thành công", Toast.LENGTH_SHORT).show()
+//                                }
+//                                navController.navigateUp()
+//                            }
+//                        },
+//                        modifier = Modifier
+//                            .width(174.dp)
+//                            .height(50.dp)
+//                            .border(
+//                                10.dp,
+//                                color = Color("#FFB703".toColorInt()),
+//                                shape = RoundedCornerShape(10.dp)
+//                            ),
+//                        colors = ButtonDefaults.buttonColors(
+//                            containerColor = Color("#FFB703".toColorInt())
+//                        )
+//                    ) {
+//                        Text(text = "Lưu", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+//                    }
+                    Row(
                         modifier = Modifier
-                            .width(174.dp)
-                            .height(50.dp)
-                            .border(
-                                10.dp,
-                                color = Color("#FFB703".toColorInt()),
-                                shape = RoundedCornerShape(10.dp)
-                            ),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color("#FFB703".toColorInt())
-                        )
+                            .clip(RoundedCornerShape(10.dp))
+                            .width(170.dp)
+                            .height(40.dp)
+                            .background(color = Color("#FFB703".toColorInt()))
+                            .clickable {
+                                if (dishNew.isBlank() || giaMonMoi.toString().isBlank()) {
+                                    Toast.makeText(context, "Vui lòng nhập tên và giá món ăn hợp lệ", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    scope.launch {
+                                        val imageUriString: String = selectedImageUri?.toString() ?: dish?.image ?: ""
+                                        dish?.let { existingDish ->
+                                            val newDish = Dish(
+                                                uid = existingDish.uid,
+                                                name = dishNew,
+                                                price = giaMonMoi.toDouble(),
+                                                image = imageUriString,
+                                                categoryId = existingDish.categoryId
+                                            )
+                                            dishViewModel.update(newDish)
+                                            Toast.makeText(context, "Sửa món ăn thành công", Toast.LENGTH_SHORT).show()
+                                            navController.navigateUp()
+                                        }
+                                    }
+                                }
+
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Text(text = "Lưu", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Text(text = "Xác nhận", color = Color.White, fontSize = 18.sp)
                     }
 
                 }

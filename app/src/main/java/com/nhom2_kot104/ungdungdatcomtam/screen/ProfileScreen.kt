@@ -261,7 +261,7 @@ fun LogoutConfirmationDialog(
                 Text(text = "Hủy", color = Color.Black)
             }
         },
-        containerColor = Color.Yellow
+        containerColor = Color.White
     )
 }
 
