@@ -177,22 +177,22 @@ fun ProfileContent(navController: NavHostController) {
                     .padding(18.dp),
             ) {
                 Input(label = "Số điện thoại", value = "") {
-                    // Xử lý input
+
                 }
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Input(label = "Phường", value = "") {
-                    // Xử lý input
+
                 }
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Input(label = "Đường", value = "") {
-                    // Xử lý input
+
                 }
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Input(label = "Số nhà", value = "") {
-                    // Xử lý input
+
                 }
             }
             Row(
